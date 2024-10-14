@@ -2,6 +2,7 @@ package com.solutis.locadora.vehicle_rental_service.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.solutis.locadora.customer_service.driver.DriverModel;
+import com.solutis.locadora.stock_management.model.Carro;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -43,11 +44,9 @@ public class Aluguel {
 
 
     @NotNull
-    @ManyToOne
-    private DriverModel motorista;
-/*
+    private Long motoristaId;
+
     @NotNull
-    @ManyToOne
-    private Carro carro;
-     */
+    private Long carroId;
+
 }
