@@ -1,6 +1,7 @@
 package com.solutis.locadora.vehicle_rental_service.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.solutis.locadora.customer_service.driver.DriverModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -40,12 +41,13 @@ public class Aluguel {
     @JoinColumn(name = "apolice_id")
     private ApoliceSeguro apolice;
 
-    /* @ManyToOne
-    @NotNull
-    private Motorista motorista;
 
-    @ManyToOne
     @NotNull
+    @ManyToOne
+    private DriverModel motorista;
+/*
+    @NotNull
+    @ManyToOne
     private Carro carro;
      */
 }
