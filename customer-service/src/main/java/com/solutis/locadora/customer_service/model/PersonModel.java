@@ -1,20 +1,15 @@
-package com.solutis.locadora.customer_service.person;
+package com.solutis.locadora.customer_service.model;
 
-import com.solutis.locadora.customer_service.gender.Gender;
+import com.solutis.locadora.customer_service.enums.Gender;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-@Entity
+@Data
 @MappedSuperclass
 public abstract class PersonModel {
 
@@ -27,6 +22,8 @@ public abstract class PersonModel {
     private LocalDate dateOfBirth;
     @Column(length = 11, nullable = false, unique = true)
     private String cpf;
+    @Column(nullable = false, unique = true)
+    private String email;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;

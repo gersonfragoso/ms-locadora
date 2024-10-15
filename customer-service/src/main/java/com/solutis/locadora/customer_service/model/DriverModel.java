@@ -1,18 +1,13 @@
-package com.solutis.locadora.customer_service.driver;
+package com.solutis.locadora.customer_service.model;
 
-import com.solutis.locadora.customer_service.person.PersonModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "DRIVER")
 public class DriverModel extends PersonModel {
