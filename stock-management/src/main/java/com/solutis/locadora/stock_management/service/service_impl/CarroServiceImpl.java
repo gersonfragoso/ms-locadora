@@ -52,7 +52,7 @@ public class CarroServiceImpl implements CarroService {
                 throw new IllegalArgumentException("Chassi inválido!");
             if (carroRepository.existsByPlacaIgnoreCase(carro.getPlaca()))
                 throw new IllegalArgumentException("Placa do carro já existente no sistema!");
-            if (carroRepository.existsByChassisIgnoreCase(carro.getChassi()))
+            if (carroRepository.existsByChassiIgnoreCase(carro.getChassi()))
                 throw new IllegalArgumentException("Número de chassi já existente no sistema!");
             return CarroMapper.carroToDTO(carroRepository.save(carro));
         } catch (Exception e) {
@@ -71,7 +71,7 @@ public class CarroServiceImpl implements CarroService {
     }
 
     public List<CarroDTO> findCarrosByModelo(ModeloCarro modeloCarro) {
-        return carroRepository.findByModeloCarro(modeloCarro)
+        return carroRepository.findByModelo(modeloCarro)
                 .stream().map(CarroMapper::carroToDTO).collect(Collectors.toList());
     }
 
