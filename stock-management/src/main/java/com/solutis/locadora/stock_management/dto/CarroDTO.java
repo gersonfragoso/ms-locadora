@@ -9,6 +9,6 @@ public record CarroDTO(
         String chassi,
         String cor,
         BigDecimal valorDiaria,
-        Long modeloId,
-        Set<AcessorioDTO> acessorioDTOS ) {
+        Long modeloId)
+{
 }

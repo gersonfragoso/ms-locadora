@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/ms-locadora.iml" filepath="$PROJECT_DIR$/.idea/ms-locadora.iml" />
+      <module fileurl="file://$PROJECT_DIR$/stock-management/stock-management.iml" filepath="$PROJECT_DIR$/stock-management/stock-management.iml" />
     </modules>
   </component>
 </project>

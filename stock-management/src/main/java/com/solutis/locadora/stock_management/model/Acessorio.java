@@ -16,6 +16,10 @@ import java.util.Set;
 @Table (name = "acessorio")
 public class Acessorio implements Serializable {
 
+    public Acessorio(String descricao){
+        this.descricao = descricao;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
