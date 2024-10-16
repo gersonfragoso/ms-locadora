@@ -5,6 +5,7 @@ import com.solutis.locadora.stock_management.mapper.FabricanteMapper;
 import com.solutis.locadora.stock_management.model.Fabricante;
 import com.solutis.locadora.stock_management.repository.FabricanteRepository;
 import com.solutis.locadora.stock_management.service.FabricanteService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,7 @@ public class FabricanteServiceImpl implements FabricanteService {
     public FabricanteDTO findById(Long id) {
         return fabricanteRepository.findById(id)
                 .map(FabricanteMapper::fabricanteToDTO)
-                .orElseThrow(()->new RuntimeException("Fabricante não encontrado com id: "+id));
+                .orElseThrow(()->new EntityNotFoundException("Fabricante não encontrado com id: "+id));
     }
 
     @Override
@@ -39,7 +40,7 @@ public class FabricanteServiceImpl implements FabricanteService {
     @Override
     public FabricanteDTO save(FabricanteDTO fabricanteDto) {
         if(fabricanteDto.id()!=null){
-            throw new RuntimeException("ID não deve ser fornecido para criação.");
+            throw new IllegalArgumentException("ID não deve ser fornecido para criação.");
         }
         try{
             Fabricante fabricante = FabricanteMapper.fabricanteToEntity(fabricanteDto);
@@ -54,7 +55,7 @@ public class FabricanteServiceImpl implements FabricanteService {
     @Override
     public void delete(Long id) {
         Fabricante fabricante = fabricanteRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Fabricante não encontrado com id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Fabricante não encontrado com id: " + id));
         fabricanteRepository.delete(fabricante);
     }
 }
