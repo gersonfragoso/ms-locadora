@@ -15,6 +15,10 @@ import java.util.Set;
 @Table (name="fabricante")
 public class Fabricante {
 
+    public Fabricante(String nome) {
+        this.nome = nome;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

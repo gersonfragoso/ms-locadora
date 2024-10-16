@@ -15,6 +15,13 @@ import java.util.List;
 @Entity
 @Table(name="modelo")
 public class ModeloCarro implements Serializable {
+
+    public ModeloCarro(String descricao, Categoria categoria, Fabricante fabricante) {
+        this.descricao = descricao;
+        this.categoria = categoria;
+        this.fabricante = fabricante;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,7 +33,7 @@ public class ModeloCarro implements Serializable {
     private Categoria categoria;
 
     @OneToMany
-    private List<Carro> carro;
+    private List<Carro> carros;
 
     @ManyToOne
     @JoinColumn
