@@ -2,15 +2,13 @@ package com.solutis.locadora.stock_management.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.antlr.v4.runtime.tree.Tree;
 
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /*LOMBOK*/
 @Data
@@ -21,19 +19,29 @@ import java.util.Set;
 @Table(name = "carro")
 public class Carro implements Serializable {
 
-    public Carro(String placa, String chassi, String cor, BigDecimal valorDiaria, ModeloCarro modelo) {
+    /*public Carro(String placa, String chassi, String cor, BigDecimal valorDiaria, ModeloCarro modelo) {
         this.placa = placa;
         this.chassi = chassi;
         this.cor = cor;
         this.valorDiaria = valorDiaria;
         this.modelo = modelo;
+    }*/
+
+    public Carro(String placa, String chassi, String cor, BigDecimal valorDiaria, Set<Acessorio> acessorios, ModeloCarro modelo, Set<LocalDate> datasOcupacao) {
+        this.placa = placa;
+        this.chassi = chassi;
+        this.cor = cor;
+        this.valorDiaria = valorDiaria;
+        this.acessorios = acessorios;
+        this.modelo = modelo;
+        this.datasOcupacao = datasOcupacao;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 7, unique = true)
+    @Column(nullable = false, length = 8, unique = true)
     private String placa;
 
     @Column(nullable = false, length = 17, unique = true)
@@ -60,7 +68,7 @@ public class Carro implements Serializable {
     @ElementCollection
     @CollectionTable(name = "ocupacoes_carro", joinColumns = @JoinColumn(name = "carro_id"))
     @Column(name = "data_ocupacao")
-    private List<LocalDate> datasOcupacao = new ArrayList<>();
+    private Set<LocalDate> datasOcupacao = new HashSet<>();
 
 
 }

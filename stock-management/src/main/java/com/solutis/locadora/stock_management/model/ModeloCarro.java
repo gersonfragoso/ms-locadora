@@ -36,6 +36,6 @@ public class ModeloCarro implements Serializable {
     private List<Carro> carros;
 
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "fabricante_id", nullable = false)
     private Fabricante fabricante;
 }
