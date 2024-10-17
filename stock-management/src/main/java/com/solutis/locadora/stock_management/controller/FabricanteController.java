@@ -75,11 +75,11 @@ public class FabricanteController {
         try {
             FabricanteDTO savedFabricanteDTO = fabricanteService.save(fabricanteDTO);
 
-            response = new ResponseDTO<>(HttpStatus.OK.value(),
+            response = new ResponseDTO<>(HttpStatus.CREATED.value(),
                     "Fabricante cadastrado com sucesso.",
                     savedFabricanteDTO);
 
-            return ResponseEntity.ok(response);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
 
         } catch (IllegalArgumentException  e) {
             response = new ResponseDTO<>(HttpStatus.BAD_REQUEST.value(),e.getMessage(),null);

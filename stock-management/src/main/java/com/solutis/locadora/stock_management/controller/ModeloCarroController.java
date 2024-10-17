@@ -1,54 +1,51 @@
 package com.solutis.locadora.stock_management.controller;
 
-import com.solutis.locadora.stock_management.dto.AcessorioDTO;
+
+import com.solutis.locadora.stock_management.dto.ModeloCarroDTO;
 import com.solutis.locadora.stock_management.dto.ResponseDTO;
-import com.solutis.locadora.stock_management.service.service_impl.AcessorioServiceImpl;
+import com.solutis.locadora.stock_management.service.service_impl.ModeloCarroServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.List;
 
 @RestController
-@RequestMapping("/acessorio")
-public class AcessorioController {
+@RequestMapping("/modelocarro")
+public class ModeloCarroController {
     @Autowired
-    private AcessorioServiceImpl acessorioService;
+    private ModeloCarroServiceImpl modeloCarroService;
 
     @GetMapping
-    public ResponseEntity<ResponseDTO<List<AcessorioDTO>>> findAll() {
+    public ResponseEntity<ResponseDTO<List<ModeloCarroDTO>>> findAll() {
+        ResponseDTO<List<ModeloCarroDTO>> response;
         try {
-            List<AcessorioDTO> acessorios = acessorioService.findAll();
+            List<ModeloCarroDTO> modeloCarroDTOS = modeloCarroService.findAll();
 
-            ResponseDTO<List<AcessorioDTO>> response = new ResponseDTO<>(
-                    HttpStatus.OK.value(),
-                    "Lista de acessórios obtida com sucesso",
-                    acessorios);
+            response = new ResponseDTO<>(HttpStatus.OK.value(),
+                    "Lista de modelos de carros obtida com sucesso", modeloCarroDTOS);
 
             return ResponseEntity.ok(response);
 
         } catch (RuntimeException e) {
-            ResponseDTO<List<AcessorioDTO>> errorResponse = new ResponseDTO<>(
-                    HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                    "Erro ao buscar acessórios",
-                    null);
+            response = new ResponseDTO<>(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "Erro ao buscar modelos.", null);
 
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<ResponseDTO<AcessorioDTO>> findById(@PathVariable Long id){
-        ResponseDTO<AcessorioDTO> response;
+    public ResponseEntity<ResponseDTO<ModeloCarroDTO>> findById(@PathVariable Long id){
+        ResponseDTO<ModeloCarroDTO> response;
         try {
-            AcessorioDTO acessorioEncontrado = acessorioService.findById(id);
+            ModeloCarroDTO modeloCarroEncontrado = modeloCarroService.findById(id);
 
             response = new ResponseDTO<>(HttpStatus.OK.value(),
-                    "Resultado encontrado.", acessorioEncontrado);
+                    "Resultado encontrado.", modeloCarroEncontrado);
 
             return ResponseEntity.status(HttpStatus.OK).body(response);
         }
@@ -69,18 +66,20 @@ public class AcessorioController {
     //OBS: O Json da criação não deve conter ID! Apenas descrição. Formato do Json p/ DTO:
     /*
         {
-            "descricao": "descricao do acessorio"
-        }
+            "descricao": "string",
+            "categoria": "enum",
+            "fabricanteId": long
+}
      */
     @PostMapping
-    public ResponseEntity<ResponseDTO<AcessorioDTO>> insert (@RequestBody AcessorioDTO acessorioDTO){
-        ResponseDTO<AcessorioDTO> response;
+    public ResponseEntity<ResponseDTO<ModeloCarroDTO>> insert (@RequestBody ModeloCarroDTO modeloCarroDTO){
+        ResponseDTO<ModeloCarroDTO> response;
         try {
-            AcessorioDTO savedAcessorioDTO = acessorioService.save(acessorioDTO);
+            ModeloCarroDTO savedModeloCarroDTO = modeloCarroService.save(modeloCarroDTO);
 
             response = new ResponseDTO<>(HttpStatus.CREATED.value(),
-                    "Item cadastrado com sucesso.",
-                    savedAcessorioDTO);
+                    "Modelo de carro cadastrado com sucesso.",
+                    savedModeloCarroDTO);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
 
@@ -89,7 +88,14 @@ public class AcessorioController {
 
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 
-        } catch (RuntimeException e) {
+        }
+        catch (EntityNotFoundException e) {
+            response = new ResponseDTO<>(HttpStatus.BAD_REQUEST.value(),e.getMessage(),null);
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+
+        }
+        catch (RuntimeException e) {
             response = new ResponseDTO<>(HttpStatus.INTERNAL_SERVER_ERROR.value(),"Erro interno do servidor",null);
 
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
@@ -100,8 +106,8 @@ public class AcessorioController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<ResponseDTO<Void>> deleteById(@PathVariable Long id) {
         try {
-            acessorioService.delete(id);
-            return ResponseEntity.ok(new ResponseDTO<>(HttpStatus.OK.value(), "Acessório (id: "+id+") deletado com sucesso", null));
+            modeloCarroService.delete(id);
+            return ResponseEntity.ok(new ResponseDTO<>(HttpStatus.OK.value(), "Modelo carro: (id: "+id+") deletado com sucesso", null));
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ResponseDTO<>(HttpStatus.NOT_FOUND.value(), e.getMessage(), null));
@@ -110,8 +116,4 @@ public class AcessorioController {
                     .body(new ResponseDTO<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Erro interno do servidor", null));
         }
     }
-
-
-
-
 }

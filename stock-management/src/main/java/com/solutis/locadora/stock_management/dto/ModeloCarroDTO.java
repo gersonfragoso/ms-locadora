@@ -1,5 +1,6 @@
 package com.solutis.locadora.stock_management.dto;
 
+import com.solutis.locadora.stock_management.model.Fabricante;
 import com.solutis.locadora.stock_management.model.utils_enum.Categoria;
 
 
@@ -7,7 +8,7 @@ public record ModeloCarroDTO(
         Long id,
         String descricao,
         Categoria categoria,
-        Long fabricanteId)
+        Long fabricanteId) // Apenas o ID do fabricante
 {
     public ModeloCarroDTO(Long id, String descricao, Categoria categoria, Long fabricanteId) {
         this.id = id;
@@ -16,7 +17,7 @@ public record ModeloCarroDTO(
         this.fabricanteId = fabricanteId;
     }
 
-    public ModeloCarroDTO(String descricao, Categoria categoria, Long fabricanteId){
+    public ModeloCarroDTO(String descricao, Categoria categoria, Long fabricanteId) {
         this(null, descricao, categoria, fabricanteId);
     }
 }

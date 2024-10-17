@@ -6,6 +6,7 @@ import com.solutis.locadora.stock_management.model.Fabricante;
 import com.solutis.locadora.stock_management.repository.FabricanteRepository;
 import com.solutis.locadora.stock_management.service.FabricanteService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +38,7 @@ public class FabricanteServiceImpl implements FabricanteService {
         }
     }
 
-    @Override
+    @Override @Transactional
     public FabricanteDTO save(FabricanteDTO fabricanteDto) {
         if(fabricanteDto.id()!=null){
             throw new IllegalArgumentException("ID não deve ser fornecido para criação.");
@@ -52,10 +53,12 @@ public class FabricanteServiceImpl implements FabricanteService {
         }
     }
 
-    @Override
+    @Override @Transactional
     public void delete(Long id) {
         Fabricante fabricante = fabricanteRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Fabricante não encontrado com id: " + id));
+        fabricante.getModelosCarro().clear();
         fabricanteRepository.delete(fabricante);
+        fabricanteRepository.flush();
     }
 }
