@@ -5,6 +5,7 @@ import com.solutis.locadora.stock_management.mapper.AcessorioMapper;
 import com.solutis.locadora.stock_management.model.Acessorio;
 import com.solutis.locadora.stock_management.repository.AcessorioRepository;
 import com.solutis.locadora.stock_management.service.AcessorioService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ public class AcessorioServiceImpl implements AcessorioService {
     public AcessorioDTO findById(Long id) {
         return acessorioRepository.findById(id)
                 .map(AcessorioMapper::acessorioToDTO)
-                .orElseThrow(() -> new RuntimeException("Acessório não encontrado com id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Acessório não encontrado com id: " + id));
     }
 
 
@@ -55,7 +56,7 @@ public class AcessorioServiceImpl implements AcessorioService {
     @Override
     public void delete(Long id) {
         Acessorio acessorio = acessorioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Acessório não encontrado com id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Acessório não encontrado com id: " + id));
         acessorioRepository.delete(acessorio);
     }
 }

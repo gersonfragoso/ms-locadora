@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface CarroRepository extends JpaRepository<Carro, Long> {
     boolean existsByPlacaIgnoreCase(String placa);
-    boolean existsByChassisIgnoreCase(String chassis);
-    List<Carro> findByModeloCarro(ModeloCarro modeloCarro);
+    boolean existsByChassiIgnoreCase(String chassis);
+    List<Carro> findByModelo(ModeloCarro modeloCarro);
     List<Carro> findByAcessoriosContaining(Acessorio acessorio);
 }

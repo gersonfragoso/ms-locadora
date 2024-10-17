@@ -26,7 +26,7 @@ public class Fabricante {
     @Column(name = "nome_fabricante", nullable = false,length = 100)
     private String nome;
 
-    @OneToMany(mappedBy = "fabricante", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "fabricante", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<ModeloCarro> modelosCarro = new HashSet<>();
 
 }
