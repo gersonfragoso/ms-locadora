@@ -10,9 +10,7 @@ public record CarroDTO
     String cor,
     BigDecimal valorDiaria,
     Set<Long> acessorioIds,
-    String modeloCarro,
-    String fabricanteNome,
-    String categoria,
+    Long modeloCarroId,
     Set<LocalDate> datasOcupadas)
 
 {

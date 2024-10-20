@@ -35,17 +35,25 @@ public class CarroServiceImpl implements CarroService {
     @Override
     @Transactional
     public CarroDTO findById(Long id) {
-        return carroRepository.findById(id)
-                .map(CarroMapper::carroToDTO)
-                .orElseThrow(() -> new RuntimeException("Não existe um carro cadastrado com o id: " + id));
+        Carro carro = carroRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        Set<Long> acessoriosIds = carroRepository.findAcessoriosByCarroId(id).stream().map(Acessorio::getId).collect(Collectors.toSet());
+
+
+        return new CarroDTO(carro.getId(), carro.getPlaca(), carro.getChassi(), carro.getCor(),
+                carro.getValorDiaria(), acessoriosIds, carro.getModelo().getId(),carro.getDatasOcupacao());
     }
 
     @Override
     @Transactional
     public List<CarroDTO> findAll() {
-        return carroRepository.findAll()
-                .stream().map(CarroMapper::carroToDTO)
-                .collect(Collectors.toList());
+        List<Carro> carros = carroRepository.findAll();
+        if(carros.isEmpty())
+            throw new EntityNotFoundException("Nenhum carro encontrado.");
+        List<CarroDTO> carrosDTO = carros.stream().map(carro -> new CarroDTO(carro.getId(), carro.getPlaca(), carro.getChassi(), carro.getCor(),
+                carro.getValorDiaria(), carroRepository.findAcessoriosByCarroId(carro.getId()).stream().map(Acessorio::getId).collect(Collectors.toSet()),
+                carro.getModelo().getId(),carro.getDatasOcupacao())).toList();
+        return carrosDTO;
+
     }
 
     @Override
