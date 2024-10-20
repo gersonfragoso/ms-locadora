@@ -24,7 +24,7 @@ public class AluguelController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdAluguel);
     }
 
-    @GetMapping("/list")
+    @GetMapping
     public List<AluguelDTO> listAlugueis() {
         return aluguelService.getAllAlugueis();
     }
