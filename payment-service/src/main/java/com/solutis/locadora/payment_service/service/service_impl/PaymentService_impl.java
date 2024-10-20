@@ -22,9 +22,9 @@ public class PaymentService_impl implements PaymentService {
     private final NotificationProducer notificationProducer; // Para envio de notificações
     private final WebClient webClient;
 
-    public PaymentService_impl(NotificationProducer notificationProducer, WebClient webClient) {
+    public PaymentService_impl(NotificationProducer notificationProducer, WebClient.Builder webClientBuilder) {
         this.notificationProducer = notificationProducer;
-        this.webClient = webClient;
+        this.webClient = webClientBuilder.build();
     }
 
     // Método para buscar o carrinho pelo userId

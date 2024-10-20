@@ -13,14 +13,16 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Entity
+@Table(name = "cart")
 public class CartModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<RentalModel> rentals = new ArrayList<>();
 
     public void addRental(RentalModel rental) {
