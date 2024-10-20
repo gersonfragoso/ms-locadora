@@ -39,8 +39,10 @@ public class CarroServiceImpl implements CarroService {
         Set<Long> acessoriosIds = carroRepository.findAcessoriosByCarroId(id).stream().map(Acessorio::getId).collect(Collectors.toSet());
 
 
-        return new CarroDTO(carro.getId(), carro.getPlaca(), carro.getChassi(), carro.getCor(),
-                carro.getValorDiaria(), acessoriosIds, carro.getModelo().getId(),carro.getDatasOcupacao());
+        return new CarroDTO(carro.getId(), carro.getPlaca(), carro.getChassi(),
+                carro.getCor(), carro.getModelo().getCategoria().toString(),
+                carro.getValorDiaria(), acessoriosIds, carro.getModelo().getId(),
+                carro.getDatasOcupacao());
     }
 
     @Override
@@ -49,9 +51,13 @@ public class CarroServiceImpl implements CarroService {
         List<Carro> carros = carroRepository.findAll();
         if(carros.isEmpty())
             throw new EntityNotFoundException("Nenhum carro encontrado.");
-        List<CarroDTO> carrosDTO = carros.stream().map(carro -> new CarroDTO(carro.getId(), carro.getPlaca(), carro.getChassi(), carro.getCor(),
-                carro.getValorDiaria(), carroRepository.findAcessoriosByCarroId(carro.getId()).stream().map(Acessorio::getId).collect(Collectors.toSet()),
-                carro.getModelo().getId(),carro.getDatasOcupacao())).toList();
+        List<CarroDTO> carrosDTO = carros.stream().
+                map(carro -> new CarroDTO(carro.getId(), carro.getPlaca(),
+                        carro.getChassi(), carro.getCor(),carro.getModelo().getCategoria().toString(),
+                        carro.getValorDiaria(),
+                        carroRepository.findAcessoriosByCarroId(carro.getId()).stream()
+                                .map(Acessorio::getId).collect(Collectors.toSet()),
+                        carro.getModelo().getId(),carro.getDatasOcupacao())).toList();
         return carrosDTO;
 
     }

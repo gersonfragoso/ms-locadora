@@ -12,17 +12,19 @@ public record CarroExibicaoDTO(
         List<String> acessoriosNomes,
         String modeloNome,
         String fabricanteNome,
+        String categoria,
         Set<LocalDate> datasOcupadas) {
 
     public CarroExibicaoDTO(Long id, String cor, BigDecimal valorDiaria,
                             List<String> acessoriosNomes, String modeloNome,
-                            String fabricanteNome, Set<LocalDate> datasOcupadas) {
+                            String fabricanteNome, String categoria, Set<LocalDate> datasOcupadas) {
         this.id = id;
         this.cor = cor;
         this.valorDiaria = valorDiaria;
         this.acessoriosNomes = acessoriosNomes;
         this.modeloNome = modeloNome;
         this.fabricanteNome = fabricanteNome;
+        this.categoria = categoria;
         this.datasOcupadas = datasOcupadas;
     }
 

@@ -8,24 +8,23 @@ public record CarroDTO
     (Long id,
     String placa,
     String cor,
+    String categoria,
     BigDecimal valorDiaria,
     Set<Long> acessorioIds,
     Long modeloCarroId,
     Set<LocalDate> datasOcupadas)
 
 {
-    public CarroDTO(Long id, String placa, String cor, BigDecimal valorDiaria,
+    public CarroDTO(Long id, String placa, String cor, String categoria, BigDecimal valorDiaria,
             Set<Long> acessorioIds, Long modeloCarroId, Set<LocalDate> datasOcupadas) {
         this.id = id;
         this.placa = placa;
         this.cor = cor;
+        this.categoria = categoria;
         this.valorDiaria = valorDiaria;
         this.acessorioIds = acessorioIds;
         this.modeloCarroId = modeloCarroId;
         this.datasOcupadas = datasOcupadas;
     }
 
-    public CarroDTO(String placa, String cor, BigDecimal valorDiaria, Set<Long> acessorioIds, Long modeloCarroId, Set<LocalDate> datasOcupadas) {
-        this(null, placa, cor, valorDiaria, acessorioIds, modeloCarroId, datasOcupadas);
-    }
 }

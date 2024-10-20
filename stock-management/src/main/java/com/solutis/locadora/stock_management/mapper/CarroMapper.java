@@ -19,7 +19,6 @@ public class CarroMapper {
         Set<Long> acessorioIds = carro.getAcessorios().stream()
                 .map(Acessorio::getId)
                 .collect(Collectors.toSet());
-        System.out.println(carro.getAcessorios().toString());
 
         // Apenas o ID do modelo de carro
         Long modeloCarroId = carro.getModelo().getId();
@@ -29,6 +28,7 @@ public class CarroMapper {
                 carro.getPlaca(),
                 carro.getChassi(),
                 carro.getCor(),
+                carro.getModelo().getCategoria().toString(),
                 carro.getValorDiaria(),
                 acessorioIds,
                 modeloCarroId,
