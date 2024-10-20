@@ -28,6 +28,7 @@ public class CarroMapper {
                 carro.getPlaca(),
                 carro.getChassi(),
                 carro.getCor(),
+                carro.getModelo().getCategoria().toString(),
                 carro.getValorDiaria(),
                 acessorioIds,
                 modeloCarroId,

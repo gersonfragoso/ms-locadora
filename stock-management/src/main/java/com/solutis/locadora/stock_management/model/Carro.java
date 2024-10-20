@@ -53,7 +53,7 @@ public class Carro implements Serializable {
     @Column(name = "valor_diaria", nullable = false)
     private BigDecimal valorDiaria;
 
-    @ManyToMany
+    @ManyToMany (fetch = FetchType.EAGER)
     @JoinTable(
             name = "carro_acessorio",
             joinColumns = @JoinColumn(name = "carro_id"),
