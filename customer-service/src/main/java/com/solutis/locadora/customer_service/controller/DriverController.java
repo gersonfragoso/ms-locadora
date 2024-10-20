@@ -15,7 +15,7 @@ import java.util.UUID;
 @RequestMapping("/driver")
 public class DriverController {
 
-    final DriverService driverService;
+    private final DriverService driverService;
 
     public DriverController(DriverService driverService) {
         this.driverService = driverService;

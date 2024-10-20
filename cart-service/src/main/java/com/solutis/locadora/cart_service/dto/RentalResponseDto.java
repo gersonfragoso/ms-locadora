@@ -8,5 +8,7 @@ public record RentalResponseDto(Calendar dataPedido,
                                 Date dataEntrega,
                                 Date dataDevolucao,
                                 BigDecimal valorTotal,
-                                ApoliceSeguroDto apoliceSeguro) {
+                                ApoliceSeguroDto apoliceSeguro){
+
+
 }

@@ -1,4 +1,4 @@
-package com.solutis.locadora.payment_service;
+package com.solutis.locadora.payment_service.dto;
 
 
 import lombok.Data;

@@ -4,8 +4,11 @@ import com.solutis.locadora.cart_service.dto.RentalResponseDto;
 import com.solutis.locadora.cart_service.model.CartModel;
 import com.solutis.locadora.cart_service.model.RentalModel;
 import com.solutis.locadora.cart_service.service.CartService;
+import com.solutis.locadora.cart_service.service.service_impl.CartServiceImpl;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/cart")
@@ -24,9 +27,10 @@ public class CartController {
     }
 
     @PostMapping("/{cartId}/checkout")
-    public ResponseEntity<String> checkout(@PathVariable Long cartId) {
-        String response = cartService.checkout(cartId);
-        return ResponseEntity.ok(response);
+    public Mono<ResponseEntity<String>> checkout(@PathVariable Long cartId) {
+        return cartService.checkout(cartId)
+                .map(response -> ResponseEntity.ok(response))
+                .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao processar pagamento."));
     }
 
     @DeleteMapping("/{cartId}/remove/{rentalId}")
@@ -48,8 +52,9 @@ public class CartController {
     }
 
     @GetMapping("/rentals/{rentalId}/details")
-    public ResponseEntity<RentalResponseDto> getRentalResponse(@PathVariable Long rentalId) {
-        RentalResponseDto rentalResponse = cartService.getRentalResponseById(rentalId);
-        return ResponseEntity.ok(rentalResponse);
+    public Mono<ResponseEntity<RentalResponseDto>> getRentalResponse(@PathVariable Long rentalId) {
+        return cartService.getRentalResponseById(rentalId)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 }
