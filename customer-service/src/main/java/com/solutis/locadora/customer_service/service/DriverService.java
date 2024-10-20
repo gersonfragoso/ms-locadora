@@ -3,6 +3,7 @@ package com.solutis.locadora.customer_service.service;
 import com.solutis.locadora.customer_service.dto.DriverRecordDto;
 import com.solutis.locadora.customer_service.mapper.Mapper;
 import com.solutis.locadora.customer_service.model.DriverModel;
+import com.solutis.locadora.customer_service.producer.NotificationProducer;
 import com.solutis.locadora.customer_service.repository.DriverRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,18 +16,23 @@ import java.util.UUID;
 public class DriverService {
 
         final DriverRepository driverRepository;
+        private final NotificationProducer notificationProducer;
 
-    public DriverService(DriverRepository driverRepository) {
+    public DriverService(DriverRepository driverRepository, NotificationProducer notificationProducer) {
         this.driverRepository = driverRepository;
+        this.notificationProducer = notificationProducer;
     }
 
     @Transactional
     public DriverModel createDriver(DriverRecordDto driverRecordDto){
-        if (driverRecordDto.person() == null) {
-            throw new IllegalArgumentException("Os dados precisam ser preenchidos.");
-        }
+
         DriverModel driverModel = Mapper.toModel(driverRecordDto);
-        return driverRepository.save(driverModel);
+        DriverModel savedDriver = driverRepository.save(driverModel);
+
+        // Envie a notificação ao Notification Service
+        notificationProducer.sendNotification(savedDriver.getName(), savedDriver.getEmail());
+
+        return savedDriver;
     }
 
     @Transactional

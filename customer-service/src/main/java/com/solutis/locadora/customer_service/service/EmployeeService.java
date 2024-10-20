@@ -3,6 +3,7 @@ package com.solutis.locadora.customer_service.service;
 import com.solutis.locadora.customer_service.dto.EmployeeRecordDto;
 import com.solutis.locadora.customer_service.mapper.Mapper;
 import com.solutis.locadora.customer_service.model.EmployeeModel;
+import com.solutis.locadora.customer_service.producer.NotificationProducer;
 import com.solutis.locadora.customer_service.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,17 +17,21 @@ public class EmployeeService {
 
     final EmployeeRepository employeeRepository;
 
-    public EmployeeService(EmployeeRepository employeeRepository) {
+    private final NotificationProducer notificationProducer;
+
+    public EmployeeService(EmployeeRepository employeeRepository, NotificationProducer notificationProducer) {
         this.employeeRepository = employeeRepository;
+        this.notificationProducer = notificationProducer;
     }
 
     @Transactional
     public EmployeeModel createEmployee(EmployeeRecordDto employeeRecordDto){
-        if (employeeRecordDto.person() == null) {
-            throw new IllegalArgumentException("Os dados precisam ser preenchidos.");
-        }
+
         EmployeeModel employeeModel = Mapper.toModel(employeeRecordDto);
-        return employeeRepository.save(employeeModel);
+        EmployeeModel savedEmployee = employeeRepository.save(employeeModel);
+
+        notificationProducer.sendNotification(savedEmployee.getName(), savedEmployee.getEmail());
+        return savedEmployee;
     }
 
     public Optional<EmployeeModel> findById(UUID id){
