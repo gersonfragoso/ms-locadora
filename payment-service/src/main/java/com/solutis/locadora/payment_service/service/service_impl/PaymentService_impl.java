@@ -16,8 +16,11 @@ public class PaymentService_impl implements PaymentService {
     @Value("${cart-service.url}")
     private String cartServiceUrl; // URL do serviço do carrinho
 
-    @Value("${stock-service.url}")
+    @Value("${stock-management.url}")
     private String stockServiceUrl; // URL do serviço de estoque
+
+    @Value("${vehicle-rental-service.url}")
+    private String vehicleRentalServiceUrl;
 
     private final NotificationProducer notificationProducer; // Para envio de notificações
     private final WebClient webClient;
@@ -28,6 +31,7 @@ public class PaymentService_impl implements PaymentService {
     }
 
     // Método para buscar o carrinho pelo userId
+    @Override
     public Mono<CartDto> getCart(Long userId) {
         return webClient.get()
                 .uri(cartServiceUrl + "/cart/" + userId)
@@ -40,7 +44,7 @@ public class PaymentService_impl implements PaymentService {
 
     // Método para bloquear o veículo no serviço de estoque
     public Mono<Void> reservarVeiculo(Long vehicleId, Date dataInicio, Date dataFim) {
-        String estoqueUrl = stockServiceUrl + "/reservar/" + vehicleId + "?inicio=" + dataInicio + "&fim=" + dataFim;
+        String estoqueUrl = vehicleRentalServiceUrl + "/reservar/" + vehicleId + "?inicio=" + dataInicio + "&fim=" + dataFim;
         return webClient.post()
                 .uri(estoqueUrl)
                 .retrieve()
@@ -52,20 +56,18 @@ public class PaymentService_impl implements PaymentService {
 
     // Método para simular o processamento do pagamento
     private Mono<Void> processarPagamento(Long userId, double totalAmount) {
-        // Simulando uma lógica de pagamento (aqui você pode integrar com um serviço real)
         return Mono.just(totalAmount)
                 .doOnNext(amount -> {
-                    // Aqui você pode adicionar lógica para simular o pagamento
                     if (amount <= 0) {
                         throw new RuntimeException("Valor de pagamento inválido.");
                     }
-                    // Simulação de pagamento bem-sucedido
                     System.out.println("Pagamento de R$" + amount + " processado com sucesso para o usuário: " + userId);
                 })
-                .then(); // Retorna um Mono<Void> após o pagamento simulado
+                .then();
     }
 
     // Método para processar a reserva de veículos e o pagamento
+    @Override
     public Mono<Void> processarReserva(Long userId) {
         return getCart(userId)
                 .flatMap(cart -> {
@@ -92,6 +94,7 @@ public class PaymentService_impl implements PaymentService {
     }
 
     // Método para deletar o carrinho
+    @Override
     public Mono<Void> deleteCart(Long userId) {
         return webClient.delete()
                 .uri(cartServiceUrl + "/cart/" + userId)
