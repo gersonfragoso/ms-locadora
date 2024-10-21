@@ -1,5 +1,6 @@
 package com.solutis.locadora.vehicle_rental_service.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,6 +32,7 @@ public class ApoliceSeguro {
     private Boolean protecaoRoubo;
 
     @OneToOne(mappedBy = "apolice")
+    @JsonBackReference
     private Aluguel aluguel;
 }
 

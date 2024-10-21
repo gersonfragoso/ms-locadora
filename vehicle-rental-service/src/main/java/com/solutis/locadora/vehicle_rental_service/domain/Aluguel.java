@@ -1,6 +1,8 @@
     package com.solutis.locadora.vehicle_rental_service.domain;
 
+    import com.fasterxml.jackson.annotation.JsonBackReference;
     import com.fasterxml.jackson.annotation.JsonFormat;
+    import com.solutis.locadora.vehicle_rental_service.dto.CarroExibicaoDTO;
     import jakarta.persistence.*;
     import lombok.AllArgsConstructor;
     import lombok.NoArgsConstructor;
@@ -37,8 +39,9 @@
         @NotNull
         private BigDecimal valorTotal;
 
-        @ManyToOne
+        @OneToOne
         @JoinColumn(name = "apolice_id")
+        @JsonBackReference
         private ApoliceSeguro apolice;
 
         @NotNull

@@ -10,5 +10,5 @@ public interface AluguelService {
     public List<AluguelDTO> getAllAlugueis();
     public AluguelDTO updateAluguel(Long id, Aluguel aluguelAtualizado);
     public void deleteAluguel(Long id);
-    public AluguelDTO getAluguelById(Long id);
+    public List<Object> getAluguelById(Long id);
 }

@@ -24,14 +24,14 @@ public class AluguelController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdAluguel);
     }
 
-    @GetMapping("/list")
+    @GetMapping
     public List<AluguelDTO> listAlugueis() {
         return aluguelService.getAllAlugueis();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AluguelDTO> getAluguelById(@PathVariable Long id) {
-        AluguelDTO aluguelDTO = aluguelService.getAluguelById(id);
+    public ResponseEntity<Object> getAluguelById(@PathVariable Long id) {
+        List <Object>aluguelDTO = aluguelService.getAluguelById(id);
         return ResponseEntity.ok(aluguelDTO);
     }
 
