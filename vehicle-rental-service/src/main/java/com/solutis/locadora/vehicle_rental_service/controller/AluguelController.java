@@ -30,8 +30,8 @@ public class AluguelController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AluguelDTO> getAluguelById(@PathVariable Long id) {
-        AluguelDTO aluguelDTO = aluguelService.getAluguelById(id);
+    public ResponseEntity<Object> getAluguelById(@PathVariable Long id) {
+        List <Object>aluguelDTO = aluguelService.getAluguelById(id);
         return ResponseEntity.ok(aluguelDTO);
     }
 
