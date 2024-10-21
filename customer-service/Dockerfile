@@ -20,8 +20,6 @@ WORKDIR /app
 # Copia o .jar gerado do build para o container
 COPY --from=build /app/target/*.jar .
 
-# Expõe a porta que a aplicação utilizará
-EXPOSE 8081
 
 # Define o comando para rodar a aplicação
 ENTRYPOINT ["java", "-jar", "customer-service-0.0.1-SNAPSHOT.jar"]
